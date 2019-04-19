@@ -38,26 +38,28 @@ console.assert(e.isEqualNode(b), 'DIFFERENT!')
 
 // /////////////////////////////////////////////////////////////////////////////////////
 
+function objectToStyleDeclaration(objectValue) {
+  return JSON.stringify(objectValue)
+    .replace(/\}|,/g, '; ')
+    .replace(/\{|"/g, '')
+    .replace(/:/g, ': ')
+    .trim()
+}
+
+function isString(value) {
+  return typeof value === 'string'
+}
+
 function h(tagName, attributes = {}, children = []) {
   const element = document.createElement(tagName || 'div')
-  const keys = Object.keys(attributes)
 
-  keys.forEach(key => {
-    if (typeof attributes[key] === 'string') {
-      element.setAttribute(key, attributes[key])
-    } else {
-      element.setAttribute(
-        key,
-        JSON.stringify(attributes[key])
-          .replace(/\}|,/g, '; ')
-          .replace(/\{|"/g, '')
-          .replace(/:/g, ': ')
-          .trim()
-      )
-    }
+  Object.entries(attributes).forEach(([key, value]) => {
+    const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
+    element.setAttribute(key, attributeValue)
   })
+
   children.forEach(child =>
-    element.appendChild(typeof child === 'string' ? document.createTextNode(child) : child)
+    element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
 
   return element
