@@ -27,7 +27,7 @@ document.body.appendChild(b)
 
 // /////////////////////////////////////////////////////////////////////////////////////
 
-console.assert(a.isEqualNode(b), 'DIFFERENT!')
+console.assert(e.isEqualNode(b), 'DIFFERENT!')
 
 /*
 1. v1
@@ -49,8 +49,10 @@ function h(tagName, attributes = {}, children = []) {
       element.setAttribute(
         key,
         JSON.stringify(attributes[key])
-          .replace(/\}|,/g, ';')
+          .replace(/\}|,/g, '; ')
           .replace(/\{|"/g, '')
+          .replace(/:/g, ': ')
+          .trim()
       )
     }
   })
