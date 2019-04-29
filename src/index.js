@@ -11,15 +11,21 @@ e.style.height = '50px'
 e.style.background = 'steelblue'
 e.appendChild(a)
 
-document.body.appendChild(e)
+// document.body.appendChild(e)
 
 // /////////////////////////////////////////////////////////////////////////////////////
 
 // prettier-ignore
 // const b = h('div', { class: 'asd', style: 'height: 50px; background: steelblue;' }, [
-const b = h('div.asd.qwerty', { style: { height: '50px', background: 'steelblue' } }, [
-  h('span', { class: 'wer', style: 'color: blue;' }, [
-    'CIAO',
+const b = h('div.asd.qwerty', {
+  props: { style: { height: '50px', background: 'steelblue' } },
+  on: { click: '' },
+}, [
+  h('span', {
+    props: { class: 'wer', style: 'color: blue;' },
+  }
+  , [
+    'CLICK ME',
   ]),
 ])
 
@@ -74,16 +80,26 @@ function h(tagName, attributes = {}, children = []) {
   if (id) element.setAttribute('id', id)
   if (classes) element.setAttribute('class', classes.trim())
 
-  Object.entries(attributes).forEach(([key, value]) => {
-    const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
+  if (attributes.props) {
+    Object.entries(attributes.props).forEach(([key, value]) => {
+      const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
 
-    element.setAttribute(
-      key,
-      JSON.stringify(attributeValue)
-        .replace(/\}|,/g, ';')
-        .replace(/\{|"/g, '')
-    )
-  })
+      element.setAttribute(
+        key,
+        JSON.stringify(attributeValue)
+          .replace(/\}|,/g, ';')
+          .replace(/\{|"/g, '')
+      )
+    })
+  }
+
+  if (attributes.on) {
+    Object.entries(attributes.on).forEach(([event, func]) => {
+      element.addEventListener('click', function() {
+        console.log('action')
+      })
+    })
+  }
 
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
