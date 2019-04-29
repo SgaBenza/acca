@@ -25,9 +25,60 @@ const b = h('div.asd.qwerty', { style: { height: '50px', background: 'steelblue'
 
 document.body.appendChild(b)
 
+const hiccup = ([tagName, attributes, children]) => {
+  const tagNameSet = tagName.split(/(#\w+)|(\.\w+)/g)
+  const element = document.createElement(tagNameSet[0] || 'div')
+
+  tagNameSet.splice(0, 1)
+  let id
+  let classes = ''
+
+  tagNameSet.forEach(d => {
+    if (d) {
+      switch (d.charAt(0)) {
+        case '.':
+          classes = `${classes} ${d.replace(d.charAt(0), '')}`
+          break
+        case '#':
+          id = d.replace(d.charAt(0), '')
+          break
+      }
+    }
+  })
+
+  if (id) element.setAttribute('id', id)
+  if (classes) element.setAttribute('class', classes.trim())
+
+  Object.entries(attributes).forEach(([key, value]) => {
+    const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
+
+    element.setAttribute(
+      key,
+      JSON.stringify(attributeValue)
+        .replace(/\}|,/g, ';')
+        .replace(/\{|"/g, '')
+    )
+  })
+
+  element.appendChild(
+    children.length > 1 ? hiccup([...children]) : document.createTextNode(children)
+  )
+
+  return element
+}
+
+const domElement = [
+  'div.asd.qwerty',
+  { style: { height: '50px', background: 'steelblue' } },
+  ['span', { class: 'wer', style: 'color: blue;' }, ['CIAO']],
+]
+const c = hiccup(domElement)
+
+document.body.appendChild(c)
+
 // /////////////////////////////////////////////////////////////////////////////////////
 
-console.assert(e.isEqualNode(b), 'DIFFERENT!')
+console.assert(b.isEqualNode(c), 'DIFFERENT!')
 
 /*
 1. v1
