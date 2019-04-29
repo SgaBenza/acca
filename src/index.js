@@ -15,31 +15,30 @@ e.appendChild(a)
 
 // /////////////////////////////////////////////////////////////////////////////////////
 
-// prettier-ignore
-// const b = h('div', { class: 'asd', style: 'height: 50px; background: steelblue;' }, [
-const update = () => console.log('ACTION!')
-const b = h(
-  'div.asd.qwerty',
-  {
-    props: { style: { height: '50px', background: 'steelblue' } },
-    on: { click: update },
-  },
-  [
-    h(
-      'span',
-      {
-        props: { class: 'wer', style: 'color: blue;' },
-      },
-      ['CLICK ME']
-    ),
-  ]
-)
+let oldVNode = document.getElementById('root')
 
-document.body.appendChild(b)
+function update(event) {
+  const element = document.getElementById('patch')
 
+  if (element.childNodes.length > 1) {
+    element.childNodes[1].nodeValue = event.target.value
+  } else {
+    const txt = document.createTextNode(event.target.value)
+
+    element.appendChild(txt)
+  }
+}
+
+function view(name) {
+  return h('div', {}, [
+    h('input', { props: { type: 'text', placeholder: 'Type a your name' }, on: { input: update } }),
+    h('hr'),
+    h('div#patch', {}, [`Hello ${name}`]),
+  ])
+}
+
+oldVNode.appendChild(view(''))
 // /////////////////////////////////////////////////////////////////////////////////////
-
-console.assert(e.isEqualNode(b), 'DIFFERENT!')
 
 /*
 1. v1
@@ -62,6 +61,8 @@ function isString(value) {
   return typeof value === 'string'
 }
 
+// prettier-ignore
+// const b = h('div', { class: 'asd', style: 'height: 50px; background: steelblue;' }, [
 function h(tagName, attributes = {}, children = []) {
   const tagNameSet = tagName.split(/(#\w+)|(\.\w+)/g)
   const element = document.createElement(tagNameSet[0] || 'div')
