@@ -17,17 +17,23 @@ e.appendChild(a)
 
 // prettier-ignore
 // const b = h('div', { class: 'asd', style: 'height: 50px; background: steelblue;' }, [
-const b = h('div.asd.qwerty', {
-  props: { style: { height: '50px', background: 'steelblue' } },
-  on: { click: '' },
-}, [
-  h('span', {
-    props: { class: 'wer', style: 'color: blue;' },
-  }
-  , [
-    'CLICK ME',
-  ]),
-])
+const update = () => console.log('ACTION!')
+const b = h(
+  'div.asd.qwerty',
+  {
+    props: { style: { height: '50px', background: 'steelblue' } },
+    on: { click: update },
+  },
+  [
+    h(
+      'span',
+      {
+        props: { class: 'wer', style: 'color: blue;' },
+      },
+      ['CLICK ME']
+    ),
+  ]
+)
 
 document.body.appendChild(b)
 
@@ -94,10 +100,8 @@ function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.on) {
-    Object.entries(attributes.on).forEach(([event, func]) => {
-      element.addEventListener('click', function() {
-        console.log('action')
-      })
+    Object.entries(attributes.on).forEach(([event, action]) => {
+      element.addEventListener(event, action)
     })
   }
 
