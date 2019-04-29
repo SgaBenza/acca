@@ -19,14 +19,18 @@ let oldVNode = document.getElementById('root')
 
 function update(event) {
   const element = document.getElementById('patch')
+  const newVNode = view(event.target.value)
 
-  if (element.childNodes.length > 1) {
+  oldVNode.childNodes[0].removeChild(oldVNode.childNodes[0].childNodes[2])
+  oldVNode.childNodes[0].appendChild(newVNode.childNodes[2])
+
+  /* if (element.childNodes.length > 1) {
     element.childNodes[1].nodeValue = event.target.value
   } else {
     const txt = document.createTextNode(event.target.value)
 
     element.appendChild(txt)
-  }
+  } */
 }
 
 function view(name) {
