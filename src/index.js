@@ -15,33 +15,32 @@ e.appendChild(a)
 
 // /////////////////////////////////////////////////////////////////////////////////////
 
-let oldVNode = document.getElementById('root')
+let root = document.getElementById('root')
 
-function update(event) {
-  const element = document.getElementById('patch')
-  const newVNode = view(event.target.value)
+const update = () => event => {
+  const { node, helloNode } = view(event.target.value)
+  const viewNode = root.childNodes[0]
 
-  oldVNode.childNodes[0].removeChild(oldVNode.childNodes[0].childNodes[2])
-  oldVNode.childNodes[0].appendChild(newVNode.childNodes[2])
-
-  /* if (element.childNodes.length > 1) {
-    element.childNodes[1].nodeValue = event.target.value
-  } else {
-    const txt = document.createTextNode(event.target.value)
-
-    element.appendChild(txt)
-  } */
+  viewNode.removeChild(viewNode.childNodes[2])
+  viewNode.appendChild(helloNode)
 }
 
 function view(name) {
-  return h('div', {}, [
-    h('input', { props: { type: 'text', placeholder: 'Type a your name' }, on: { input: update } }),
+  let helloNode = h('div#patch', {}, [`Hello ${name}`])
+  let node
+  node = h('div#view', {}, [
+    h('input', {
+      props: { type: 'text', placeholder: 'Type a your name' },
+      on: { input: update() },
+    }),
     h('hr'),
-    h('div#patch', {}, [`Hello ${name}`]),
+    helloNode,
   ])
+  return { node, helloNode }
 }
 
-oldVNode.appendChild(view(''))
+root.appendChild(view('').node)
+
 // /////////////////////////////////////////////////////////////////////////////////////
 
 /*
