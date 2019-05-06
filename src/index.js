@@ -1,27 +1,36 @@
 import { h } from './lib/acca'
+import { state } from './lib/state'
+import { removeChildren } from './lib/vdom'
 
-let root = document.getElementById('root')
+const root = document.getElementById('root')
 
 const update = event => {
-  const { helloNode } = view(event.target.value)
-  const viewNode = root.childNodes[0]
-
-  viewNode.removeChild(viewNode.childNodes[2])
-  viewNode.appendChild(helloNode)
+  state.text += event.target.value
+  state.isFocused = true
+  removeChildren(root)
+  render()
 }
 
 function view(name) {
-  let helloNode = h('div#patch', {}, [`Hello ${name}`])
-  let node
-  node = h('div#view', {}, [
+  let node = h('div#view', {}, [
     h('input', {
-      props: { type: 'text', placeholder: 'Type a your name' },
+      props: {
+        type: 'text',
+        placeholder: 'Type a your name',
+        autofocus: state.isFocused,
+        value: state.text,
+      },
       on: { input: update },
     }),
     h('hr'),
-    helloNode,
+    h('div#patch', {}, [`Hello ${name}`]),
   ])
-  return { node, helloNode }
+
+  return node
 }
 
-root.appendChild(view('').node)
+function render() {
+  root.appendChild(view(state.text))
+}
+
+render()
