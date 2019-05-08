@@ -24,15 +24,22 @@ function setInputFocus() {
 
 function view(actualState) {
   let node = h('div#view', {}, [
-    h('input#input', {
-      props: {
-        type: 'text',
-        placeholder: 'Type a your name',
-        value: actualState.text,
-        autocomplete: 'off',
-      },
-      on: { input: event => setState({ text: event.target.value, isFocused: true }) },
-    }),
+    h('div', { props: { style: 'display: flex;' } }, [
+      h('input#input', {
+        props: {
+          type: 'text',
+          placeholder: 'Type a your name',
+          value: actualState.text,
+          autocomplete: 'off',
+        },
+        on: { input: event => setState({ text: event.target.value, isFocused: true }) },
+      }),
+      h(
+        'button',
+        { props: { style: 'margin-left: 8px;' }, on: { click: () => setState({ text: '' }) } },
+        ['RESET']
+      ),
+    ]),
     h('hr'),
     h('div#patch', {}, [`Hello ${actualState.text}`]),
   ])
