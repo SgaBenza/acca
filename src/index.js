@@ -5,12 +5,10 @@ const root = document.getElementById('root')
 const state = { text: '', isFocused: false }
 
 const setState = actualState => {
-  // TO FIX
   state.text = actualState.text
   state.isFocused = actualState.isFocused
 
   render(state)
-  setInputFocus()
 }
 
 function setInputFocus() {
@@ -45,6 +43,12 @@ function view(actualState) {
 function render(actualState) {
   removeChildren(root)
   root.appendChild(view(actualState))
+
+  const { isFocused } = actualState
+
+  if (isFocused) {
+    setInputFocus()
+  }
 }
 
-render({ text: '', isFocused: false })
+render(state)
