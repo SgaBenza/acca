@@ -4,19 +4,24 @@ import { removeChildren } from './lib/vdom'
 const root = document.getElementById('root')
 const state = { text: '', isFocused: false }
 
-const update = event => {
-  state.text = event.target.value
-  state.isFocused = true
+const setState = actualState => {
+  // TO FIX
+  state.text = actualState.text
+  state.isFocused = actualState.isFocused
 
-  removeChildren(root)
   render(state)
+  setInputFocus()
+}
 
+function setInputFocus() {
   // keep focused and set caret position at the end
   const input = document.getElementById('input')
   const pos = input.value.length
 
-  state.isFocused && input.focus()
-  input.setSelectionRange(pos, pos)
+  if (state.isFocused) {
+    input.focus()
+    input.setSelectionRange(pos, pos)
+  }
 }
 
 function view(actualState) {
@@ -26,8 +31,9 @@ function view(actualState) {
         type: 'text',
         placeholder: 'Type a your name',
         value: actualState.text,
+        autocomplete: 'off',
       },
-      on: { input: update },
+      on: { input: event => setState({ text: event.target.value, isFocused: true }) },
     }),
     h('hr'),
     h('div#patch', {}, [`Hello ${actualState.text}`]),
@@ -37,6 +43,7 @@ function view(actualState) {
 }
 
 function render(actualState) {
+  removeChildren(root)
   root.appendChild(view(actualState))
 }
 
