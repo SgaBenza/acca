@@ -1,26 +1,6 @@
-import { h } from './lib/acca'
-import { removeChildren } from './lib/vdom'
+import { h, render, setState } from './lib/acca'
 
-const root = document.getElementById('root')
 const state = { text: '', isFocused: false }
-
-const setState = actualState => {
-  state.text = actualState.text
-  state.isFocused = actualState.isFocused
-
-  render(state)
-}
-
-function setInputFocus() {
-  // keep focused and set caret position at the end
-  const input = document.getElementById('input')
-  const pos = input.value.length
-
-  if (state.isFocused) {
-    input.focus()
-    input.setSelectionRange(pos, pos)
-  }
-}
 
 function view(actualState) {
   let node = h('div#view', {}, [
@@ -32,30 +12,29 @@ function view(actualState) {
           value: actualState.text,
           autocomplete: 'off',
         },
-        on: { input: event => setState({ text: event.target.value, isFocused: true }) },
+        on: {
+          input: event => setState(view, state, { text: event.target.value }),
+          focus: event => setState(view, state, { isFocused: true }),
+          // blur: event => setState(view, state, { isFocused: false }),
+        },
+        focused: state.isFocused,
       }),
       h(
         'button',
-        { props: { style: 'margin-left: 8px;' }, on: { click: () => setState({ text: '' }) } },
+        {
+          props: { style: 'margin-left: 8px;' },
+          on: { click: () => setState(view, state, { text: '' }) },
+        },
         ['RESET']
       ),
     ]),
     h('hr'),
     h('div#patch', {}, [`Hello ${actualState.text}`]),
+    h('hr'),
+    h('pre', {}, [JSON.stringify(state)]),
   ])
 
   return node
 }
 
-function render(actualState) {
-  removeChildren(root)
-  root.appendChild(view(actualState))
-
-  const { isFocused } = actualState
-
-  if (isFocused) {
-    setInputFocus()
-  }
-}
-
-render(state)
+render(view, state)

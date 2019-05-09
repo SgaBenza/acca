@@ -1,3 +1,5 @@
+import { removeChildren } from './vdom'
+
 function objectToStyleDeclaration(objectValue) {
   return JSON.stringify(objectValue)
     .replace(/\}|,/g, '; ')
@@ -53,9 +55,32 @@ export function h(tagName, attributes = {}, children = []) {
     })
   }
 
+  if (attributes.focused) {
+    element.focus()
+  }
+
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
 
   return element
+}
+
+export function render(view, actualState) {
+  const root = document.getElementById('root')
+
+  // const focusedElement = getFocusedElement()
+
+  removeChildren(root)
+
+  const actualView = view(actualState)
+  root.appendChild(actualView)
+
+  // if (focusedElement !== null) focusedElement.focus()
+}
+
+export function setState(view, state, actualState) {
+  state.text = actualState.text
+
+  render(view, actualState)
 }
