@@ -15,9 +15,9 @@ function view(actualState) {
         on: {
           input: event => setState(view, state, { ...state, text: event.target.value }),
           focus: () => setState(view, state, { ...state, isFocused: true }),
-          blur: event => setState(view, state, { ...state, isFocused: false }),
+          // blur: event => setState(view, state, { ...state, isFocused: false }),
         },
-        focused: state.isFocused,
+        focused: actualState.isFocused,
       }),
       h(
         'button',

@@ -80,7 +80,9 @@ export function render(view, actualState) {
 }
 
 export function setState(view, state, actualState) {
-  state.text = actualState.text
+  const stateProperties = Object.keys(state)
+
+  stateProperties.forEach(property => (state[property] = actualState[property]))
 
   render(view, actualState)
 }
