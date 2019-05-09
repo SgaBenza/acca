@@ -13,9 +13,9 @@ function view(actualState) {
           autocomplete: 'off',
         },
         on: {
-          input: event => setState(view, state, { ...state, text: event.target.value }),
-          focus: () => setState(view, state, { ...state, isFocused: true }),
-          // blur: event => setState(view, state, { ...state, isFocused: false }),
+          input: event => setState(view, state, { text: event.target.value }),
+          focus: () => setState(view, state, { isFocused: true }),
+          // blur: () => setState(view, state, { isFocused: false }),
         },
         focused: actualState.isFocused,
       }),

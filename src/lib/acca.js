@@ -56,7 +56,7 @@ export function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.focused) {
-    element.focus()
+    element.setAttribute('class', 'focused')
   }
 
   children.forEach(child =>
@@ -69,20 +69,22 @@ export function h(tagName, attributes = {}, children = []) {
 export function render(view, actualState) {
   const root = document.getElementById('root')
 
-  // const focusedElement = getFocusedElement()
+  // const focusedElement = getFocusedElement(root)
 
   removeChildren(root)
 
   const actualView = view(actualState)
+
   root.appendChild(actualView)
 
-  // if (focusedElement !== null) focusedElement.focus()
+  const focusedElement = document.querySelector('.focused')
+  if (focusedElement !== null) focusedElement.focus()
 }
 
 export function setState(view, state, actualState) {
-  const stateProperties = Object.keys(state)
+  const stateProperties = Object.keys(actualState)
 
   stateProperties.forEach(property => (state[property] = actualState[property]))
 
-  render(view, actualState)
+  render(view, state)
 }
