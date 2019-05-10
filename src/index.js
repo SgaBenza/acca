@@ -5,7 +5,7 @@ const state = { text: '', isFocused: false }
 function view(actualState) {
   let node = h('div#view', {}, [
     h('div', { props: { style: 'display: flex;' } }, [
-      h('input#input', {
+      h('input#input.input', {
         props: {
           type: 'text',
           placeholder: 'Type a your name',
@@ -13,9 +13,9 @@ function view(actualState) {
           autocomplete: 'off',
         },
         on: {
-          input: event => setState(view, state, { text: event.target.value }),
-          focus: () => setState(view, state, { isFocused: true }),
-          // blur: () => setState(view, state, { isFocused: false }),
+          input: event => setState({ text: event.target.value }),
+          /* focus: () => setState(view, state, { isFocused: true }),
+          blur: () => setState(view, state, { isFocused: false }), */
         },
         focused: actualState.isFocused,
       }),

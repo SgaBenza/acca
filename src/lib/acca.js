@@ -56,9 +56,9 @@ export function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.focused) {
-    element.setAttribute('class', 'focused')
+    classes.replace(/(blured)/g, '')
+    element.setAttribute('class', `${classes} focused`)
   }
-
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
