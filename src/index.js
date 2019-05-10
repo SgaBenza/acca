@@ -1,4 +1,5 @@
 import { h, render, setState } from './lib/acca'
+import './style.css'
 
 const state = { text: '', isFocused: false }
 
@@ -13,9 +14,11 @@ function view(actualState) {
           autocomplete: 'off',
         },
         on: {
-          input: event => setState({ text: event.target.value }),
-          /* focus: () => setState(view, state, { isFocused: true }),
-          blur: () => setState(view, state, { isFocused: false }), */
+          input: event => {
+            setState(view, state, { text: event.target.value })
+          },
+          focus: () => setState(view, state, { isFocused: true }),
+          // blur: () => setState(view, state, { isFocused: false }),
         },
         focused: actualState.isFocused,
       }),
