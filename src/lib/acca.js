@@ -56,8 +56,9 @@ export function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.focused) {
-    classes.replace(/(blured)/g, '')
+    classes.replace(/(blured-input-text)/g, '')
     element.setAttribute('class', `${classes} focused-input-text`)
+    // queueAttributes(element, [type, value])
   }
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
@@ -74,17 +75,18 @@ export function render(view, actualState) {
   removeChildren(root)
 
   const actualView = view(actualState)
-
   root.appendChild(actualView)
 
   const focusedElement = document.querySelector('.focused-input-text')
+  // resolveAttributesQueue()
 
-  if (focusedElement && !document.hasFocus()) {
+  /* if (focusedElement) {
     focusedElement.focus()
-  }
+  } */
 }
 
 export function setState(view, state, statePatch) {
+  console.log(statePatch)
   Object.keys(statePatch).forEach(key => {
     state[key] = statePatch[key]
   })

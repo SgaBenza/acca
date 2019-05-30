@@ -1,0 +1,9 @@
+let attributes = []
+
+function queueAttributes(element, [type, action] ) {
+  attributes.push({element, [type, action] })
+}
+
+function resolveQueueAttributes(){
+  attributes.forEach()
+}

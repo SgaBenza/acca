@@ -6,7 +6,7 @@ const state = { text: '', isFocused: false }
 function view(actualState) {
   let node = h('div#view', {}, [
     h('div', { props: { style: 'display: flex;' } }, [
-      h('input#input.input', {
+      h('input', {
         props: {
           type: 'text',
           placeholder: 'Type a your name',
