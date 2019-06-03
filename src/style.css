@@ -1,4 +1,4 @@
-input[type='text'],
+/* input[type='text'],
 textarea {
   -webkit-transition: all 0.3s ease-in-out;
   -moz-transition: all 0.3s ease-in-out;
@@ -6,7 +6,7 @@ textarea {
   -o-transition: all 0.3s ease-in-out;
   outline: none;
   border: 1px solid #dddddd;
-}
+} */
 
 .focused-input-text {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
