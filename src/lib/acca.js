@@ -12,6 +12,14 @@ function isString(value) {
   return typeof value === 'string'
 }
 
+// Queue Pattern
+const queue = { id: '' }
+
+export function setQueue(queueObj) {
+  const keys = Object.keys(queueObj)
+  keys.forEach(k => (queue[k] = queueObj[k]))
+}
+
 export function h(tagName, attributes = {}, children = []) {
   const tagNameSet = tagName.split(/(#\w+)|(\.\w+)/g)
   const element = document.createElement(tagNameSet[0] || 'div')
@@ -33,7 +41,10 @@ export function h(tagName, attributes = {}, children = []) {
     }
   })
 
-  if (id) element.setAttribute('id', id)
+  if (id) {
+    element.setAttribute('id', id)
+    setQueue({ id: id })
+  }
   if (classes) element.setAttribute('class', classes.trim())
 
   if (attributes.props) {
