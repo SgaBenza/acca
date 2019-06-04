@@ -1,5 +1,6 @@
-import { removeChildren } from './vdom'
+import { removeChildren, setQueue, pushElementDOM, getDOM } from './vdom'
 
+// UTILS
 function objectToStyleDeclaration(objectValue) {
   return JSON.stringify(objectValue)
     .replace(/\}|,/g, '; ')
@@ -12,16 +13,7 @@ function isString(value) {
   return typeof value === 'string'
 }
 
-// Queue Pattern
-let queue = {}
-let DOM = []
-let QUEUE_ARR = []
-
-export function setQueue(queueObj) {
-  const keys = Object.keys(queueObj)
-  keys.forEach(k => Object.assign(queue, queueObj))
-}
-
+// ACCA
 export function h(tagName, attributes = {}, children = []) {
   const tagNameSet = tagName.split(/(#\w+)|(\.\w+)/g)
   const element = document.createElement(tagNameSet[0] || 'div')
@@ -79,14 +71,12 @@ export function h(tagName, attributes = {}, children = []) {
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
-  DOM.push(element)
-  QUEUE_ARR.push(queue)
-  queue = {}
+  pushElementDOM(element)
 
-  console.log(element)
   return element
 }
 
+// RENDER **********
 export function render(view, actualState) {
   const root = document.getElementById('root')
 
@@ -95,9 +85,9 @@ export function render(view, actualState) {
   removeChildren(root)
 
   const actualView = view(actualState)
-  DOM[0].setAttribute('id', QUEUE_ARR[3].id)
-  root.appendChild(DOM[3])
-  console.log(QUEUE_ARR)
+
+  /* DOM[0].setAttribute('id', 'prima')*/
+  root.appendChild(getDOM())
 
   const focusedElement = document.querySelector('.focused-input-text')
   // resolveAttributesQueue()
@@ -107,6 +97,7 @@ export function render(view, actualState) {
   } */
 }
 
+// SET STATE ******+ß
 export function setState(view, state, statePatch) {
   console.log(statePatch)
   Object.keys(statePatch).forEach(key => {
