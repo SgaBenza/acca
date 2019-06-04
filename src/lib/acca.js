@@ -1,4 +1,4 @@
-import { removeChildren, setQueue, pushElementDOM, getDOM } from './vdom'
+import { removeChildren, setQueue, setQueueProps, pushElementDOM, getDOM } from './vdom'
 
 // UTILS
 function objectToStyleDeclaration(objectValue) {
@@ -43,18 +43,19 @@ export function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.props) {
+    let obj = []
     Object.entries(attributes.props).forEach(([key, value]) => {
       const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
-
-      setQueue({
-        attributes: {
+      obj.push({
+        attributes: [
           key,
-          value: JSON.stringify(attributeValue)
+          JSON.stringify(attributeValue)
             .replace(/\}|,/g, ';')
             .replace(/\{|"/g, ''),
-        },
+        ],
       })
     })
+    setQueueProps(obj)
   }
 
   if (attributes.on) {

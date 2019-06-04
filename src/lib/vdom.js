@@ -6,16 +6,27 @@ export function removeChildren(node) {
 
 // QUEUE PATTER
 let queue = {}
+let queueArr = []
 export let DOM = []
 
 export function setQueue(queueObj) {
-  const keys = Object.keys(queueObj)
-  keys.forEach(k => Object.assign(queue, queueObj))
-  console.log(queue)
+  /* if (queueObj.length > 1) {
+    queueObj.forEach((k, i) => {
+      console.log('k', k)
+      Object.assign(queue, k)
+    })
+  } else { */
+  Object.assign(queue, queueObj)
+}
+
+export function setQueueProps(queueObjArr) {
+  queueObjArr.forEach(obj => {
+    queueArr.push(obj)
+  })
 }
 
 export function pushElementDOM(element) {
-  DOM.push({ tree: element, queue })
+  DOM.push({ tree: element, queue, queueArr })
 
   queue = {}
 }
@@ -27,13 +38,19 @@ export function reset() {
 
 export function getDOM() {
   DOM.forEach(elm => {
-    const { id, classes, attributes, listeners } = elm.queue
+    const { id, classes, listeners } = elm.queue
+    const attributes = elm.queueArr
     const { tree } = elm
 
     if (id) tree.setAttribute('id', id)
     if (classes) tree.setAttribute('class', classes)
-    if (attributes) tree.setAttribute(attributes[0], attributes[1])
-    console.log(listeners)
+    if (attributes) {
+      attributes.forEach(attr => {
+        tree.setAttribute(attr.attributes[0], attr.attributes[1])
+      })
+    }
+
+    // EVENT LISTENERS
     if (listeners) tree.addEventListener(listeners[0], listeners[1])
   })
 
