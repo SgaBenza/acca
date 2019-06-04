@@ -5,12 +5,7 @@ const state = { text: '', isFocused: false }
 
 function view(actualState) {
   let node = h('div#primo', {}, [
-    h('div', { props: { style: 'color:red; background-color:yellow;' } }, [
-      'ROSSO',
-      h('div', {}, ['Innesto']),
-    ]),
-    'child',
-    h('div.class', {}, ['terzo elemento']),
+    h('button', { on: { click: () => console.log('FUCK YEAH !!!!!!') } }, ['B T O O N']),
   ])
 
   return node

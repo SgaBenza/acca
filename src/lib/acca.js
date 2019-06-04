@@ -47,19 +47,20 @@ export function h(tagName, attributes = {}, children = []) {
       const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
 
       setQueue({
-        attributes: [
+        attributes: {
           key,
-          JSON.stringify(attributeValue)
+          value: JSON.stringify(attributeValue)
             .replace(/\}|,/g, ';')
             .replace(/\{|"/g, ''),
-        ],
+        },
       })
     })
   }
 
   if (attributes.on) {
     Object.entries(attributes.on).forEach(([event, action]) => {
-      element.addEventListener(event, action)
+      // element.addEventListener(event, action)
+      setQueue({ listeners: [event, action] })
     })
   }
 
