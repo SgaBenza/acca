@@ -13,11 +13,13 @@ function isString(value) {
 }
 
 // Queue Pattern
-const queue = { id: '' }
+let queue = {}
+let DOM = []
+let QUEUE_ARR = []
 
 export function setQueue(queueObj) {
   const keys = Object.keys(queueObj)
-  keys.forEach(k => (queue[k] = queueObj[k]))
+  keys.forEach(k => Object.assign(queue, queueObj))
 }
 
 export function h(tagName, attributes = {}, children = []) {
@@ -42,10 +44,13 @@ export function h(tagName, attributes = {}, children = []) {
   })
 
   if (id) {
-    element.setAttribute('id', id)
+    // element.setAttribute('id', id)
     setQueue({ id: id })
   }
-  if (classes) element.setAttribute('class', classes.trim())
+  if (classes) {
+    // element.setAttribute('class', classes.trim())
+    setQueue({ classes: classes.trim() })
+  }
 
   if (attributes.props) {
     Object.entries(attributes.props).forEach(([key, value]) => {
@@ -74,7 +79,11 @@ export function h(tagName, attributes = {}, children = []) {
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
+  DOM.push(element)
+  QUEUE_ARR.push(queue)
+  queue = {}
 
+  console.log(element)
   return element
 }
 
@@ -86,7 +95,9 @@ export function render(view, actualState) {
   removeChildren(root)
 
   const actualView = view(actualState)
-  root.appendChild(actualView)
+  DOM[0].setAttribute('id', QUEUE_ARR[3].id)
+  root.appendChild(DOM[3])
+  console.log(QUEUE_ARR)
 
   const focusedElement = document.querySelector('.focused-input-text')
   // resolveAttributesQueue()

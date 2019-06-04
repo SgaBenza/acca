@@ -4,7 +4,11 @@ import './style.css'
 const state = { text: '', isFocused: false }
 
 function view(actualState) {
-  let node = h('div#view', {}, [h('div#patch', {}, [`Hello ${actualState.text}`]), h('hr')])
+  let node = h('div#primo', {}, [
+    h('div', { props: { style: 'color:red' } }, ['ROSSO', h('div', {}, ['Innesto'])]),
+    'child',
+    h('div.class', {}, ['terzo elemento']),
+  ])
 
   return node
 }
