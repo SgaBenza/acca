@@ -48,12 +48,20 @@ export function h(tagName, attributes = {}, children = []) {
     Object.entries(attributes.props).forEach(([key, value]) => {
       const attributeValue = isString(value) ? value : objectToStyleDeclaration(value)
 
-      element.setAttribute(
+      setQueue({
+        attributes: [
+          key,
+          JSON.stringify(attributeValue)
+            .replace(/\}|,/g, ';')
+            .replace(/\{|"/g, ''),
+        ],
+      })
+      /* element.setAttribute(
         key,
         JSON.stringify(attributeValue)
           .replace(/\}|,/g, ';')
           .replace(/\{|"/g, '')
-      )
+      ) */
     })
   }
 

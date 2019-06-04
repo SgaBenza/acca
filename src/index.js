@@ -5,7 +5,10 @@ const state = { text: '', isFocused: false }
 
 function view(actualState) {
   let node = h('div#primo', {}, [
-    h('div', { props: { style: 'color:red' } }, ['ROSSO', h('div', {}, ['Innesto'])]),
+    h('div', { props: { style: 'color:red; background-color:yellow;' } }, [
+      'ROSSO',
+      h('div', {}, ['Innesto']),
+    ]),
     'child',
     h('div.class', {}, ['terzo elemento']),
   ])

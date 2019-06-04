@@ -26,10 +26,12 @@ export function reset() {
 
 export function getDOM() {
   DOM.forEach(elm => {
-    const { id, classes } = elm
+    const { id, classes, attributes } = elm.queue
+    const { tree } = elm
 
-    if (id) elm.tree.setAttribute('id', id)
-    if (classes) elm.tree.setAttribute('class', classes)
+    if (id) tree.setAttribute('id', id)
+    if (classes) tree.setAttribute('class', classes)
+    if (attributes) tree.setAttribute(attributes[0], attributes[1])
   })
 
   return DOM[DOM.length - 1].tree
