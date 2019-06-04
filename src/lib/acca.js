@@ -36,11 +36,9 @@ export function h(tagName, attributes = {}, children = []) {
   })
 
   if (id) {
-    // element.setAttribute('id', id)
     setQueue({ id: id })
   }
   if (classes) {
-    // element.setAttribute('class', classes.trim())
     setQueue({ classes: classes.trim() })
   }
 
@@ -56,12 +54,6 @@ export function h(tagName, attributes = {}, children = []) {
             .replace(/\{|"/g, ''),
         ],
       })
-      /* element.setAttribute(
-        key,
-        JSON.stringify(attributeValue)
-          .replace(/\}|,/g, ';')
-          .replace(/\{|"/g, '')
-      ) */
     })
   }
 
@@ -92,9 +84,8 @@ export function render(view, actualState) {
 
   removeChildren(root)
 
-  const actualView = view(actualState)
+  view(actualState)
 
-  /* DOM[0].setAttribute('id', 'prima')*/
   root.appendChild(getDOM())
 
   const focusedElement = document.querySelector('.focused-input-text')
