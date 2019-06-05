@@ -4,21 +4,21 @@ import './style.css'
 const state = { text: '', isFocused: false }
 
 function view(actualState) {
-  let node = h('div.lsdkfj#iu', { props: { style: 'ofjso', ley: 'key' } }, [
-    /* h('input', {
+  let node = h('div', {}, [
+    h('input', {
       props: {
         type: 'text',
-        placeholder: 'Type a your name',
+        placeholder: 'Type your name',
         autocomplete: 'off',
+        value: actualState.text,
       },
       on: {
         input: event => {
-          event.target.value = state.text + event.target.value
           setState(view, state, { text: event.target.value })
         },
       },
-    }), */
-    'XXXX',
+    }),
+    h('div', {}, [state.text]),
   ])
 
   return node
