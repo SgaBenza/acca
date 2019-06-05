@@ -1,4 +1,4 @@
-import { removeChildren, setQueue, setQueueProps, pushElementDOM, getDOM } from './vdom'
+import { removeChildren, setQueue, setQueueMultiple, pushElementDOM, getDOM } from './vdom'
 
 // UTILS
 function objectToStyleDeclaration(objectValue) {
@@ -55,12 +55,11 @@ export function h(tagName, attributes = {}, children = []) {
         ],
       })
     })
-    setQueueProps(obj)
+    setQueueMultiple(obj)
   }
 
   if (attributes.on) {
     Object.entries(attributes.on).forEach(([event, action]) => {
-      // element.addEventListener(event, action)
       setQueue({ listeners: [event, action] })
     })
   }
@@ -70,6 +69,8 @@ export function h(tagName, attributes = {}, children = []) {
     element.setAttribute('class', `${classes} focused-input-text`)
     // queueAttributes(element, [type, value])
   }
+
+  // BUILD THE DOM
   children.forEach(child =>
     element.appendChild(isString(child) ? document.createTextNode(child) : child)
   )
@@ -100,7 +101,6 @@ export function render(view, actualState) {
 
 // SET STATE ******+ß
 export function setState(view, state, statePatch) {
-  console.log(statePatch)
   Object.keys(statePatch).forEach(key => {
     state[key] = statePatch[key]
   })
