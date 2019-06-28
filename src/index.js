@@ -1,11 +1,11 @@
 import { h, render, setState } from './lib/acca'
 import './style.css'
 
-const state = { text: '', isFocused: false }
+const state = { text: 'text', isFocused: false }
 
 function view(actualState) {
   let node = h('div', {}, [
-    h('input', {
+    h('input#focus', {
       props: {
         type: 'text',
         placeholder: 'Type your name',
@@ -16,6 +16,12 @@ function view(actualState) {
         input: event => {
           setState(view, state, { text: event.target.value })
         },
+        /*  focus: () => {
+          setState(view, state, { isFocused: true })
+        }, */
+        /* blur: () => {
+          setState(view, state, { isFocused: false })
+        }, */
       },
     }),
     h('div', {}, [state.text]),

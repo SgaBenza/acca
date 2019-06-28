@@ -59,15 +59,16 @@ export function h(tagName, attributes = {}, children = []) {
   }
 
   if (attributes.on) {
-    Object.entries(attributes.on).forEach(([event, action]) => {
+    const entries = Object.entries(attributes.on)
+
+    entries.forEach(([event, action]) => {
       setQueue({ listeners: [event, action] })
     })
-  }
 
-  if (attributes.focused) {
-    classes.replace(/(blured-input-text)/g, '')
-    element.setAttribute('class', `${classes} focused-input-text`)
-    // queueAttributes(element, [type, value])
+    // MANAGE THE FOCUS
+    if (attributes.on.focus) {
+      setQueue({ focused: true })
+    }
   }
 
   // BUILD THE DOM
@@ -80,6 +81,7 @@ export function h(tagName, attributes = {}, children = []) {
 }
 
 // RENDER **********
+let xxx = false
 export function render(view, actualState) {
   const root = document.getElementById('root')
 
@@ -89,14 +91,14 @@ export function render(view, actualState) {
 
   view(actualState)
 
-  root.appendChild(getDOM())
+  const { tree, focusedElement } = getDOM(actualState)
+  // if (focusedElement) console.log(focusedElement.tree)
+  root.appendChild(tree)
 
-  const focusedElement = document.querySelector('.focused-input-text')
-  // resolveAttributesQueue()
-
-  /* if (focusedElement) {
+  if (focusedElement && xxx === false) {
+    xxx = true
     focusedElement.focus()
-  } */
+  }
 }
 
 // SET STATE ******+ß
