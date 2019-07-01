@@ -89,7 +89,7 @@ export function render(view, actualState) {
 
   view(actualState)
 
-  const { tree, focusedElement } = getDOM(actualState)
+  const tree = getDOM(actualState)
 
   root.appendChild(tree)
 }

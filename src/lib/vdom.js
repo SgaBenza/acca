@@ -9,9 +9,6 @@ let queue = {}
 let queueArr = []
 let DOM = []
 
-// FOCUS
-const focus = { isFocused: false }
-
 export function setQueue(queueObj) {
   Object.assign(queue, queueObj)
 }
@@ -34,9 +31,7 @@ function reset() {
   queueArr = []
 }
 
-export function getDOM(state) {
-  let focusedElement
-
+export function getDOM() {
   DOM.forEach(elm => {
     const { id, classes, listeners } = elm.queue
     const properties = elm.queueArr
@@ -57,12 +52,7 @@ export function getDOM(state) {
 
       tree.addEventListener(event, action)
     }
-
-    if (state.isFocused && focusedElement === undefined) {
-      focusedElement = document.getElementById('focus')
-      console.log(tree)
-    }
   })
 
-  return { tree: DOM[DOM.length - 1].tree, focusedElement: focusedElement }
+  return DOM[DOM.length - 1].tree
 }
