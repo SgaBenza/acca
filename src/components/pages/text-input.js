@@ -1,4 +1,4 @@
-import { h, render, setState } from './lib/acca'
+import { h, render, setState } from './lib/acca/acca'
 import './style.css'
 
 const state = { textUno: 'text', textDue: 't2t' }
