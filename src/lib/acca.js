@@ -65,11 +65,6 @@ export function h(tagName, attributes = {}, children = []) {
     entries.forEach(([event, action]) => {
       setQueue({ listeners: [event, action] })
     })
-
-    // MANAGE THE FOCUS
-    if (attributes.on.focus) {
-      setQueue({ focused: true })
-    }
   }
 
   // BUILD THE DOM
@@ -102,15 +97,14 @@ export function setState(view, state, statePatch, event) {
 
   render(view, state)
 
-  // MANAGE FOCUSED ACTIVE ELEMENT
-  const activeElement = document.querySelector(`input[value='${event.target.value}']`)
+  // MANAGE FOCUSED ACTIVE INPUT/TEXTAREA ELEMENT
+  const tagName = event.target.tagName.toLowerCase()
 
   const startCaretPosition = event.target.value.length
   const endCaretPosition = startCaretPosition
 
-  setCaretPosition(activeElement, startCaretPosition, endCaretPosition)
+  const activeElement = document.querySelector(`${tagName}[value='${event.target.value}']`)
 
   activeElement.focus()
-
-  // console.log(event)
+  setCaretPosition(activeElement, startCaretPosition, endCaretPosition)
 }
