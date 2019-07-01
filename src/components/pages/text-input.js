@@ -1,11 +1,9 @@
-import { h, render, setState } from './lib/acca/acca'
-import './style.css'
+import { h, setState } from '../../lib/acca'
+import 'style.css'
 
-const state = { textUno: 'text', textDue: 't2t' }
-
-function view(actualState) {
+export function textInputView(actualState) {
   let node = h('div', {}, [
-    h('input#uno', {
+    h('input#uno.focusedInput', {
       props: {
         type: 'text',
         placeholder: 'Type your name',
@@ -14,7 +12,7 @@ function view(actualState) {
       },
       on: {
         input: event => {
-          setState(view, state, { textUno: event.target.value }, event)
+          setState(textInputView, actualState, { textUno: event.target.value }, event)
         },
       },
     }),
@@ -29,17 +27,15 @@ function view(actualState) {
         },
         on: {
           input: event => {
-            setState(view, state, { textDue: event.target.value }, event)
+            setState(textInputView, actualState, { textDue: event.target.value }, event)
           },
         },
       },
-      [state.textDue]
+      [actualState.textDue]
     ),
-    h('div', {}, [state.textUno]),
-    h('div', {}, [state.textDue]),
+    h('div', {}, [actualState.textUno]),
+    h('div', {}, [actualState.textDue]),
   ])
 
   return node
 }
-
-render(view, state)

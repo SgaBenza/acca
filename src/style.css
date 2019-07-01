@@ -8,7 +8,9 @@ textarea {
   border: 1px solid #dddddd;
 } */
 
-.focused-input-text {
+.focusedInput {
+}
+.focusedInput:focus {
   box-shadow: 0 0 5px rgba(81, 203, 238, 1);
   border: 1px solid rgba(81, 203, 238, 1);
 }
