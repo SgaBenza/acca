@@ -1,4 +1,5 @@
 import { removeChildren, setQueue, setQueueMultiple, pushElementDOM, getDOM } from './vdom'
+import { setCaretPosition } from './utils'
 
 // UTILS
 function objectToStyleDeclaration(objectValue) {
@@ -102,6 +103,14 @@ export function setState(view, state, statePatch, event) {
   render(view, state)
 
   // MANAGE FOCUSED ACTIVE ELEMENT
-  document.querySelector(`input[value='${event.target.value}']`).focus()
-  console.log(event)
+  const activeElement = document.querySelector(`input[value='${event.target.value}']`)
+
+  const startCaretPosition = event.target.value.length
+  const endCaretPosition = startCaretPosition
+
+  setCaretPosition(activeElement, startCaretPosition, endCaretPosition)
+
+  activeElement.focus()
+
+  // console.log(event)
 }
