@@ -1,5 +1,5 @@
 import { removeChildren, setQueue, setQueueMultiple, pushElementDOM, getDOM } from './vdom'
-import { setCaretPosition } from './utils'
+import { setCaretPosition } from '../utils'
 
 // UTILS
 function objectToStyleDeclaration(objectValue) {
