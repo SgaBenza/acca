@@ -81,31 +81,27 @@ export function h(tagName, attributes = {}, children = []) {
 }
 
 // RENDER **********
-let xxx = false
 export function render(view, actualState) {
   const root = document.getElementById('root')
-
-  // const focusedElement = getFocusedElement(root)
 
   removeChildren(root)
 
   view(actualState)
 
   const { tree, focusedElement } = getDOM(actualState)
-  // if (focusedElement) console.log(focusedElement.tree)
-  root.appendChild(tree)
 
-  if (focusedElement && xxx === false) {
-    xxx = true
-    focusedElement.focus()
-  }
+  root.appendChild(tree)
 }
 
 // SET STATE ******+ß
-export function setState(view, state, statePatch) {
+export function setState(view, state, statePatch, event) {
   Object.keys(statePatch).forEach(key => {
     state[key] = statePatch[key]
   })
 
   render(view, state)
+
+  // MANAGE FOCUSED ACTIVE ELEMENT
+  document.querySelector(`input[value='${event.target.value}']`).focus()
+  console.log(event)
 }

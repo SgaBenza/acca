@@ -4,7 +4,7 @@ export function removeChildren(node) {
   }
 }
 
-// QUEUE PATTER
+// QUEUE PATTERN
 let queue = {}
 let queueArr = []
 let DOM = []
