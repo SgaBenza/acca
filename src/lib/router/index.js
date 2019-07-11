@@ -11,6 +11,6 @@ export const parseRequestURL = () => {
   return location.pathname.toLowerCase() || '/'
 }
 
-export const Router = ({ routes, state }) => {
-  return h('div', {}, [routes[state.pathname]])
+export const Router = ({ routes, pathname, state }) => {
+  return h('div', {}, [routes(state)[pathname]])
 }
