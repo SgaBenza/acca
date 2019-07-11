@@ -26,9 +26,3 @@ render(view)
 window.addEventListener('popstate', () => {
   setRouterState(location.pathname)
 })
-
-// const view = () => routes(textInputState)['/']
-
-/* function handlePathnameChange(pathname) {
-  routerState.pathname = pathname
-} */
