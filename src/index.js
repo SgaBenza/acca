@@ -9,12 +9,13 @@ const routerState = { pathname: parseRequestURL() }
 
 const view = () =>
   h('div', {}, [
-    navButtons(),
+    navButtons(setRouterState),
     Router({ routes, pathname: routerState.pathname, state: textInputState }),
   ])
 
-function handlePathname(pathname) {
+function setRouterState(pathname) {
   routerState.pathname = pathname || parseRequestURL()
+  render(view)
 }
 
 render(view)
