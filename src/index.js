@@ -1,15 +1,17 @@
 import { render, h } from './lib/acca'
 import { Router, parseRequestURL } from './lib/router'
 import { routes } from './routes'
-import { navigation } from './components/pages/navigation'
-import { textInputView } from './components/pages/text-input'
+import { navButtons } from './components/navButtons'
 import './style.css'
 
 const textInputState = { textUno: 'text', textDue: 't2t' }
 const routerState = { pathname: parseRequestURL() }
 
 const view = () =>
-  h('div', {}, [Router({ routes, pathname: routerState.pathname, state: textInputState })])
+  h('div', {}, [
+    navButtons(),
+    Router({ routes, pathname: routerState.pathname, state: textInputState }),
+  ])
 
 function handlePathname(pathname) {
   routerState.pathname = pathname || parseRequestURL()

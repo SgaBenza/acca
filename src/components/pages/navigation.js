@@ -7,11 +7,7 @@ import { prevNext } from '../prevNext'
 // const state = { pathname: '/first' }
 
 export const navigationView = (state, handlePathname) => {
-  let node = h('div#view', {}, [
-    h('div', {}, [prevNext]),
-    navButtons({ handlePathname }),
-    Router({ routes, state }),
-  ])
+  let node = h('div#view', {}, [h('div', {}, [prevNext]), navButtons({ handlePathname })])
 
   return node
 }
